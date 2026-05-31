@@ -14,7 +14,7 @@ const fetchMessagesHistoryPrivate = async (uuid) => {
     const response = await axios.get('http://localhost:8000/api/messages/private', {
         withCredentials: true,
         params: {
-            recipientUuid: uuid // Axios automatycznie zamieni to na ?recipientUuid=uuid
+            recipientUuid: uuid
         }
     });
     return response.data;
@@ -63,12 +63,10 @@ const Chat = ({onSendMessage, lastJsonMessage}) => {
         } else if (messageData.type === 'GLOBAL_MESSAGE' || !messageData.type) {
             setGlobalLiveMessages((prev) => [...prev, messageData]);
         }
-    }, [lastJsonMessage, currentUser?.uuid]); // <--- Tablica zależności jest bezpieczna
+    }, [lastJsonMessage, currentUser?.uuid]);
 
     const globalMessages = useMemo(() => {
         const historyArray = globalHistory || [];
-
-        // Filtrujemy wiadomości na żywo – zostawiamy tylko te, których NIE MA jeszcze w historii z bazy
         const uniqueLive = globalLiveMessages.filter(
             (liveMsg) => !historyArray.some((histMsg) => histMsg._id === liveMsg._id)
         );

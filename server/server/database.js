@@ -29,7 +29,6 @@ const getDb = () => {
     return dbConnection;
 };
 
-// Eksport CommonJS zgodny z Twoim serwerem Node.js
 module.exports = {
     connectToServer,
     getDb
